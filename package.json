@@ -10,7 +10,10 @@
     "@types/node": "^16.3.3",
     "nodemon": "^2.0.12"
   },
-
+  "scripts": {
+    "compile": "npx tsc --watch",
+    "serve": "npx nodemon dist/Lox.js code.lox"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

@@ -6,12 +6,23 @@ import { Token } from './Token'
 export default class Lox {
     static hadError = false
 
+    static error (line: number, message: string) : void {
+        this.report(line, "", message)
+    }
+    private static report (
+        line: number,
+        where: string,  
+        message: string
+    ) : void {
+        console.log("[line " + line + "] Error" + where + ": " + message)
+        this.hadError = true
+    }
+
     public run() : void {
             if (typeof argv[2] == 'string') {
                 this._runFile(argv[2])
                 return
             }
-            
     }
     private _runFile(path: string) : void {
         const code = readFileSync(path, { encoding: 'utf-8'});
@@ -22,19 +33,10 @@ export default class Lox {
         const tokens : Array<Token> = scanner.scanTokens()
         for (const token  of tokens) {
             console.log(token)
+            
         }
     }
-    static error (line: number, message: string) : void {
-        this.report(line, "", message)
-    }
-    private static report (
-        line: number, 
-        where: string,  
-        message: string
-    ) : void {
-        console.log("[line " + line + "] Error" + where + ": " + message)
-        this.hadError = true
-    }
+
 }
 
 const lox = new Lox()
