@@ -7,8 +7,11 @@ export default class Lox {
     static hadError = false
 
     public run() : void {
-            if (typeof argv[2] == 'string') 
+            if (typeof argv[2] == 'string') {
                 this._runFile(argv[2])
+                return
+            }
+            
     }
     private _runFile(path: string) : void {
         const code = readFileSync(path, { encoding: 'utf-8'});
@@ -17,8 +20,7 @@ export default class Lox {
     private _run(source: string) : void {
         const scanner : Scanner = new Scanner(source)
         const tokens : Array<Token> = scanner.scanTokens()
-
-        for (const token in tokens) {
+        for (const token  of tokens) {
             console.log(token)
         }
     }
@@ -36,3 +38,4 @@ export default class Lox {
 }
 
 const lox = new Lox()
+lox.run()

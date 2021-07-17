@@ -27,6 +27,7 @@ export class Scanner {
 
     private scanToken() : void {
         let c : string = this.advance()
+        console.log(c, 'chaar')
 
         switch(c) {
             case '(': this.addToken(TokenType.LEFT_PAREN); break;
