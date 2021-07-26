@@ -4,6 +4,7 @@
       "declaration": true,
       "target": "ESNext",
       "module": "CommonJS",
+      "watch": true,
       "outDir": "./dist",
       "rootDir": "./src",
       "moduleResolution": "node"

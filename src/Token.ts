@@ -16,6 +16,7 @@ export class Token {
             this.lexeme = lexeme
             this.literal = literal
             this.line = line
+            console.log(123)
     }
     public toString() : string {
         return `${this.type} ${this.lexeme} ${this.literal}`

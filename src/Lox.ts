@@ -1,4 +1,4 @@
-import { argv, exit } from 'process'
+import { argv } from 'process'
 import { readFileSync } from 'fs'
 import { Scanner } from './Scanner'
 import { Token } from './Token'
@@ -19,10 +19,13 @@ export default class Lox {
     }
 
     public run() : void {
-            if (typeof argv[2] == 'string') {
-                this._runFile(argv[2])
-                return
-            }
+        if(!argv[2]) {
+            throw new Error('Please provide a file')
+        }
+        if (typeof argv[2] == 'string') {
+            this._runFile(argv[2])
+            return
+        }
     }
     private _runFile(path: string) : void {
         const code = readFileSync(path, { encoding: 'utf-8'});
