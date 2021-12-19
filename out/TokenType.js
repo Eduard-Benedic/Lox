@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TokenType = void 0;
+exports.KeywordsMap = exports.TokenType = void 0;
 var TokenType;
 (function (TokenType) {
     // Single-character token
@@ -47,3 +47,21 @@ var TokenType;
     TokenType[TokenType["WHILE"] = 37] = "WHILE";
     TokenType[TokenType["EOF"] = 38] = "EOF";
 })(TokenType = exports.TokenType || (exports.TokenType = {}));
+exports.KeywordsMap = {
+    'and': TokenType.AND,
+    'class': TokenType.CLASS,
+    'else': TokenType.ELSE,
+    'false': TokenType.FALSE,
+    'for': TokenType.FOR,
+    'fun': TokenType.FUN,
+    'if': TokenType.IF,
+    'nil': TokenType.NIL,
+    'or': TokenType.OR,
+    'print': TokenType.PRINT,
+    'return': TokenType.RETURN,
+    'super': TokenType.SUPER,
+    'this': TokenType.THIS,
+    'true': TokenType.TRUE,
+    'var': TokenType.VAR,
+    'while': TokenType.WHILE
+};

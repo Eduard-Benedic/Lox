@@ -22,3 +22,5 @@ It has:
 * line - the line in the source code where it was identified
 
 **Lexical grammar** - rules that determine how groups of characters are grouped together. E.g != means not equal because of the lexical grammar.
+
+**Reserved word** - Identifier reserved by the lexical grammar (or, class etc)

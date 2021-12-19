@@ -1,8 +1,8 @@
 import { Token } from './Token'
-import { TokenType } from './TokenType'
+import { TokenType, KeywordsMap } from './TokenType'
 import Lox from './Lox'
 
-class Scanner {
+export class Scanner {
   source: string
   tokens: Array<Token> = []
   start: number = 0
@@ -88,6 +88,8 @@ class Scanner {
       default:
         if (this.isDigit(c)) {
           this.addNumber()
+        } else if(this.isAlpha(c)) {
+          this.identifier()
         }
         else {
           Lox.error(this.line, 'Unexpected character.');
@@ -100,10 +102,12 @@ class Scanner {
     return this.source.charAt(this.current++)
   }
 
-  addToken(type: TokenType, literal?: Object | null) {
+  addToken(type: TokenType, literal?: Object | string | number| null) {
+    const text = this.source.substring(this.start, this.current)
     if (!literal) {
-      const text = this.source.substring(this.start, this.current)
       this.tokens.push(new Token(type, text, null, this.line))
+    } else {
+      this.tokens.push(new Token(type, text, literal, this.line))
     }
   }
 
@@ -132,6 +136,25 @@ class Scanner {
     }
 
     this.addToken(TokenType.NUMBER, Number(this.source.substring(this.start, this.current)))
+  }
+
+  identifier() {
+    while (this.isAlphaNumeric(this.peek())) this.advance()
+    const text = this.source.substring(this.start, this.current) 
+    let keywordType : number | null = (KeywordsMap as any)[text] || null
+    if (keywordType == null) keywordType = TokenType.IDENTIFIER
+
+    this.addToken(keywordType)
+  }
+
+  isAlpha(c: string) {
+    return (c >= 'a' && c <= 'z') ||
+    (c >= 'A' && c <= 'Z') ||
+     c == '_'
+  }
+
+  isAlphaNumeric(c: string) {
+    return this.isAlpha(c) || this.isDigit(c)
   }
 
   match(expected: string) : boolean {

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Scanner = void 0;
 const Token_1 = require("./Token");
 const TokenType_1 = require("./TokenType");
 const Lox_1 = __importDefault(require("./Lox"));
@@ -90,6 +91,9 @@ class Scanner {
                 if (this.isDigit(c)) {
                     this.addNumber();
                 }
+                else if (this.isAlpha(c)) {
+                    this.identifier();
+                }
                 else {
                     Lox_1.default.error(this.line, 'Unexpected character.');
                 }
@@ -100,9 +104,12 @@ class Scanner {
         return this.source.charAt(this.current++);
     }
     addToken(type, literal) {
+        const text = this.source.substring(this.start, this.current);
         if (!literal) {
-            const text = this.source.substring(this.start, this.current);
             this.tokens.push(new Token_1.Token(type, text, null, this.line));
+        }
+        else {
+            this.tokens.push(new Token_1.Token(type, text, literal, this.line));
         }
     }
     addString() {
@@ -128,6 +135,23 @@ class Scanner {
                 this.advance();
         }
         this.addToken(TokenType_1.TokenType.NUMBER, Number(this.source.substring(this.start, this.current)));
+    }
+    identifier() {
+        while (this.isAlphaNumeric(this.peek()))
+            this.advance();
+        const text = this.source.substring(this.start, this.current);
+        let keywordType = TokenType_1.KeywordsMap[text] || null;
+        if (keywordType == null)
+            keywordType = TokenType_1.TokenType.IDENTIFIER;
+        this.addToken(keywordType);
+    }
+    isAlpha(c) {
+        return (c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            c == '_';
+    }
+    isAlphaNumeric(c) {
+        return this.isAlpha(c) || this.isDigit(c);
     }
     match(expected) {
         if (this.isAtEnd())
@@ -156,3 +180,4 @@ class Scanner {
         return this.current >= this.source.length;
     }
 }
+exports.Scanner = Scanner;

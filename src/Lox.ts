@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import readlineSync from 'readline-sync'
+import { Scanner } from './Scanner'
 
 export default class Lox {
   hadError: boolean
@@ -9,7 +10,7 @@ export default class Lox {
   }
 
   init() {
-    const [nodePath, filePath] = process.argv
+    const [nodePath, programPath, filePath] = process.argv
     if (process.argv.length > 3) {
       throw new Error('Too many arguments')
     } else if (process.argv.length === 3) {
@@ -21,6 +22,7 @@ export default class Lox {
 
   runFile(path: string) {
     const source = readFileSync(path, 'utf-8')
+    console.log(source)
     this.run(source)
     if (this.hadError) throw new Error('It had error')
   }
@@ -37,10 +39,7 @@ export default class Lox {
   run(source: string) {
     const scanner = new Scanner(source)
     const tokens = scanner.scanTokens()
-
-    for (token in tokens) {
-      console.log(token)
-    }
+    console.log(tokens)
   }
 
   static error(line: number, message: string) : void {
