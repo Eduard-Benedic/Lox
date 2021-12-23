@@ -36,3 +36,22 @@ age       -> 120
 The production (string) is -> "John" "is" 120 "years old"
 
 ## A grammar for Lox expressions
+
+Segment of the syntax grammar.
+
+* Literals - Number, Strings, Booleans and nil
+* Unary expressions - Like ! (not) and - (minus)
+* Binary expressions - Such as - (arithmethic minus), + (plus), *, / etc.
+* Parentheses - pair of ( ) wrapper arround an expressions
+
+Grammar
+
+expression      -> literal | unary | binary | grouping;
+literal         -> NUMBER | STRING | "true" | "false" | "nil";
+grouping        -> "(" expression ")";
+unary           -> ( "!" | "-" ) expression;
+binary          -> expression operator expression;
+operator        ->  "==" | "!=" | "<" | "<=" | ">" | ">=" | "+"  | "-"  | "*" | "/" ;
+
+A lexeme whose textual representation can vary is written as uppercase.
+
