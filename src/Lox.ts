@@ -4,6 +4,7 @@ import { Scanner } from './Scanner'
 
 export default class Lox {
   hadError: boolean
+
   constructor() {
     this.hadError = false
     this.init()
