@@ -1,34 +1,38 @@
 import { Token } from './Token'
-interface Expr {
-  this.left : any
-  this.operator : Token
-  this.right : any
-}
+
+interface Expr { }
 
 class Binary {
+	left : Expr
+	operator : Token
+	right : Expr
 	constructor (left : Expr, operator : Token, right : Expr) {
-		this.left : Expr = this.left
-		this. operator : Token = this. operator
-		this. right : Expr = this. right
+		this.left = left
+		this.operator = operator
+		this.right = right
 	}
 }
 
 class Grouping {
+	expression : Expr
 	constructor (expression : Expr) {
-		this.expression : Expr = this.expression
+		this.expression = expression
 	}
 }
 
 class Literal {
+	value : Object
 	constructor (value : Object) {
-		this.value : Object = this.value
+		this.value = value
 	}
 }
 
 class Unary {
+	operator : Token
+	right : Expr
 	constructor (operator : Token, right : Expr) {
-		this.operator : Token = this.operator
-		this. right : Expr = this. right
+		this.operator = operator
+		this.right = right
 	}
 }
 

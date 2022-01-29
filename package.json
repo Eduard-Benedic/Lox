@@ -4,7 +4,7 @@
   "description": "Typescript interpreter for the Lox language",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "npx tsc --watch"
   },
   "repository": {
     "type": "git",

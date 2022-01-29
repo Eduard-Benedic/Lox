@@ -17,16 +17,12 @@ class ASTGenerator {
         const EXTENSION = '.ts';
         const path = `${dirname}/${baseName}${EXTENSION}`;
         try {
-            let content = 'import { Token } from \'./Token\'\n';
-            content += `interface Expr {
-  this.left : any
-  this.operator : Token
-  this.right : any
-}\n\n`;
+            let content = 'import { Token } from \'./Token\'\n\n';
+            content += `interface Expr { }\n\n`;
             content += types.map((typedef) => {
                 const name = typedef.split(':')[0].trim();
-                const fields = this.defineType(typedef.split(':')[1].trim());
-                return `class ${name} {\n\t${fields}\n}\n\n`;
+                const fields = typedef.split(':')[1].trim();
+                return `class ${name} {\n\t${this.classFields(fields)}\n\t${this.defineType(fields)}\n}\n\n`;
             }).join('');
             (0, fs_1.writeFileSync)(path, content, { flag: 'w+' });
         }
@@ -34,14 +30,21 @@ class ASTGenerator {
             console.log(err);
         }
     }
-    defineType(fields) {
-        const fieldsDef = fields.split(',').map((field, index) => {
+    classFields(fields) {
+        return fields.split(',').map(field => {
+            return field.replace('@', ' : ').trim();
+        }).join('\n\t');
+    }
+    defineFields(fields) {
+        return fields.split(',').map((field, index) => {
             if (index === (fields.split(',').length - 1)) {
-                return `this.${field.split('@')[0]} : ${field.split('@')[1]} = this.${field.split('@')[0]}\n\t`;
+                return `this.${(field.split('@')[0].trim())} = ${(field.split('@')[0].trim())}\n\t`;
             }
-            return `this.${field.split('@')[0]} : ${field.split('@')[1]} = this.${field.split('@')[0]}\n\t\t`;
+            return `this.${(field.split('@')[0].trim())} = ${(field.split('@')[0].trim())}\n\t\t`;
         }).join('');
-        return `constructor (${fields.replace(/@/gi, ' : ')}) {\n\t\t${fieldsDef}}`;
+    }
+    defineType(fields) {
+        return `constructor (${fields.replace(/@/gi, ' : ')}) {\n\t\t${this.defineFields(fields)}}`;
     }
 }
 new ASTGenerator();

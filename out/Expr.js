@@ -1,39 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Token_1 = require("./Token");
-this.left;
-any;
-this.operator;
-Token_1.Token;
-this.right;
-any;
 class Binary {
     constructor(left, operator, right) {
-        this.left;
-        Expr = this.left;
-        this.operator;
-        Token_1.Token = this.operator;
-        this.right;
-        Expr = this.right;
+        this.left = left;
+        this.operator = operator;
+        this.right = right;
     }
 }
 class Grouping {
     constructor(expression) {
-        this.expression;
-        Expr = this.expression;
+        this.expression = expression;
     }
 }
 class Literal {
     constructor(value) {
-        this.value;
-        Object = this.value;
+        this.value = value;
     }
 }
 class Unary {
     constructor(operator, right) {
-        this.operator;
-        Token_1.Token = this.operator;
-        this.right;
-        Expr = this.right;
+        this.operator = operator;
+        this.right = right;
     }
 }
