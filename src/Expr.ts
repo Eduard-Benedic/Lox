@@ -1,34 +1,58 @@
 import { Token } from './Token'
+
+ interface Visitor<T> {
+	visitBinaryExpr(expr: Binary) : T
+	visitGroupingExpr(expr: Grouping) : T
+	visitLiteralExpr(expr: Literal) : T
+	visitUnaryExpr(expr: Unary) : T
+}
 interface Expr {
-  this.left : any
-  this.operator : Token
-  this.right : any
+	accept<T>(visitor: Visitor<T>): T 
 }
 
-class Binary {
+class Binary implements Expr {
+	left : Expr
+	operator : Token
+	right : Expr
 	constructor (left : Expr, operator : Token, right : Expr) {
-		this.left : Expr = this.left
-		this. operator : Token = this. operator
-		this. right : Expr = this. right
+		this.left = left
+		this.operator = operator
+		this.right = right
+	}
+	accept<T>(visitor: Visitor<T>): T {
+		return visitor.visitBinaryExpr(this)
 	}
 }
 
-class Grouping {
+class Grouping implements Expr {
+	expression : Expr
 	constructor (expression : Expr) {
-		this.expression : Expr = this.expression
+		this.expression = expression
+	}
+	accept<T>(visitor: Visitor<T>): T {
+		return visitor.visitGroupingExpr(this)
 	}
 }
 
-class Literal {
+class Literal implements Expr {
+	value : Object
 	constructor (value : Object) {
-		this.value : Object = this.value
+		this.value = value
+	}
+	accept<T>(visitor: Visitor<T>): T {
+		return visitor.visitLiteralExpr(this)
 	}
 }
 
-class Unary {
+class Unary implements Expr {
+	operator : Token
+	right : Expr
 	constructor (operator : Token, right : Expr) {
-		this.operator : Token = this.operator
-		this. right : Expr = this. right
+		this.operator = operator
+		this.right = right
+	}
+	accept<T>(visitor: Visitor<T>): T {
+		return visitor.visitUnaryExpr(this)
 	}
 }
 
