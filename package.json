@@ -4,7 +4,8 @@
   "description": "Typescript interpreter for the Lox language",
   "main": "index.js",
   "scripts": {
-    "tsc": "npx tsc --watch"
+    "tsc": "npx tsc --watch",
+    "ast": "node ./out/utils/ASTGenerator.js ./src"
   },
   "repository": {
     "type": "git",

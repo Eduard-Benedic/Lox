@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const readline_sync_1 = __importDefault(require("readline-sync"));
+const Parser_1 = require("./Parser");
 const Scanner_1 = require("./Scanner");
+const TokenType_1 = require("./TokenType");
 class Lox {
     constructor() {
         this.hadError = false;
@@ -43,10 +45,19 @@ class Lox {
     run(source) {
         const scanner = new Scanner_1.Scanner(source);
         const tokens = scanner.scanTokens();
-        console.log(tokens);
+        const parser = new Parser_1.Parser(tokens);
+        const expression = parser.parse();
+        if (this.hadError)
+            return;
+        console.log(expression);
     }
-    static error(line, message) {
-        this.report(line, "", message);
+    static error(token, message) {
+        if (token.type === TokenType_1.TokenType.EOF) {
+            this.report(token.line, "", message);
+        }
+        else {
+            this.report(token.line, " at '" + token.lexeme + "'", message);
+        }
     }
     static report(line, where, message) {
         console.log(`[line ${line}] Error ${where}: ${message}`);
