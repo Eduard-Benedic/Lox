@@ -1,6 +1,10 @@
 import { readFileSync } from 'fs'
 import readlineSync from 'readline-sync'
+import { Expr } from './Expr'
+import { Parser } from './Parser'
 import { Scanner } from './Scanner'
+import { Token } from './Token'
+import { TokenType } from './TokenType'
 
 export default class Lox {
   hadError: boolean
@@ -40,11 +44,20 @@ export default class Lox {
   run(source: string) {
     const scanner = new Scanner(source)
     const tokens = scanner.scanTokens()
-    console.log(tokens)
+    const parser: Parser = new Parser(tokens)
+    const expression = parser.parse()
+    
+    if (this.hadError) return;
+
+    console.log(expression)
   }
 
-  static error(line: number, message: string) : void {
-    this.report(line, "", message)
+  static error(token: Token, message: string) : void {
+    if (token.type === TokenType.EOF) {
+      this.report(token.line, "", message)
+    } else {
+      this.report(token.line, " at '" + token.lexeme + "'", message)
+    }
   }
 
   static report(line: number, where: string, message: string) {

@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs"
 
+/** Generates the Expr.ts file with all the classes */
 class ASTGenerator {
   constructor() {
     if (process.argv.length !== 3) {
@@ -18,7 +19,7 @@ class ASTGenerator {
 
   defineVisitor(baseName: string, types: string[]) {
     let visitor = ''
-    visitor += ' interface Visitor<T> {' + '\n\t'
+    visitor += 'export interface Visitor<T> {' + '\n\t'
     types.map((type, index) => {
       const typeName = type.split(':')[0].trim()
       if (index === (types.length - 1)) {
@@ -37,7 +38,7 @@ class ASTGenerator {
     try {
       let content = 'import { Token } from \'./Token\'\n\n'
       content += this.defineVisitor(baseName, types)
-      content += `interface Expr {\n\taccept<T>(visitor: Visitor<T>): T \n}\n\n`
+      content += `export interface Expr {\n\taccept<T>(visitor: Visitor<T>): T \n}\n\n`
       content += types.map((typedef: string) => {
         const name = typedef.split(':')[0].trim()
         const fields = typedef.split(':')[1].trim()
@@ -50,7 +51,7 @@ class ASTGenerator {
   }
 
   defineClass(name: string, baseName: string, fields: string) {
-    let classDef = `class ${name} implements ${baseName} {\n\t${this.classFields(fields)}\n\t${this.defineType(fields)}`
+    let classDef = `export class ${name} implements ${baseName} {\n\t${this.classFields(fields)}\n\t${this.defineType(fields)}`
     classDef += `\n\taccept<T>(visitor: Visitor<T>): T {\n\t\treturn visitor.visit${name}${baseName}(this)\n\t}`
     classDef += '\n}\n\n'
     return classDef

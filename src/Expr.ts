@@ -1,16 +1,16 @@
 import { Token } from './Token'
 
- interface Visitor<T> {
+export interface Visitor<T> {
 	visitBinaryExpr(expr: Binary) : T
 	visitGroupingExpr(expr: Grouping) : T
 	visitLiteralExpr(expr: Literal) : T
 	visitUnaryExpr(expr: Unary) : T
 }
-interface Expr {
+export interface Expr {
 	accept<T>(visitor: Visitor<T>): T 
 }
 
-class Binary implements Expr {
+export class Binary implements Expr {
 	left : Expr
 	operator : Token
 	right : Expr
@@ -24,7 +24,7 @@ class Binary implements Expr {
 	}
 }
 
-class Grouping implements Expr {
+export class Grouping implements Expr {
 	expression : Expr
 	constructor (expression : Expr) {
 		this.expression = expression
@@ -34,7 +34,7 @@ class Grouping implements Expr {
 	}
 }
 
-class Literal implements Expr {
+export class Literal implements Expr {
 	value : Object
 	constructor (value : Object) {
 		this.value = value
@@ -44,7 +44,7 @@ class Literal implements Expr {
 	}
 }
 
-class Unary implements Expr {
+export class Unary implements Expr {
 	operator : Token
 	right : Expr
 	constructor (operator : Token, right : Expr) {
@@ -55,4 +55,3 @@ class Unary implements Expr {
 		return visitor.visitUnaryExpr(this)
 	}
 }
-
