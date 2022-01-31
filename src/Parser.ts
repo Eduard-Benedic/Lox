@@ -28,7 +28,7 @@ export class Parser {
     return this.equality()
   }
 
-  /** equality → comparison ( ( "!=" | "==" ) comparison )* ; */
+  /** equality → comparison ( ( "!=" | "==" ) comparison )* s;s */
   private equality() {
     let expr = this.comparison()
 
