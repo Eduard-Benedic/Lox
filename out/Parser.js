@@ -27,7 +27,7 @@ class Parser {
     expression() {
         return this.equality();
     }
-    /** equality → comparison ( ( "!=" | "==" ) comparison )* ; */
+    /** equality → comparison ( ( "!=" | "==" ) comparison )* s;s */
     equality() {
         let expr = this.comparison();
         while (this.match(TokenType_1.TokenType.BANG_EQUAL, TokenType_1.TokenType.EQUAL_EQUAL)) {
