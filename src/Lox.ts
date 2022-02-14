@@ -59,7 +59,7 @@ export default class Lox {
       this.report(token.line, " at '" + token.lexeme + "'", message)
     }
   }
-
+  //
   static report(line: number, where: string, message: string) {
     console.log(`[line ${line}] Error ${where}: ${message}`)
   }
