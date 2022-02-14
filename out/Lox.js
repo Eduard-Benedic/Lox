@@ -59,6 +59,7 @@ class Lox {
             this.report(token.line, " at '" + token.lexeme + "'", message);
         }
     }
+    //
     static report(line, where, message) {
         console.log(`[line ${line}] Error ${where}: ${message}`);
     }
