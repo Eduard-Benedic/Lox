@@ -56,7 +56,7 @@ export default class Lox {
       this.interpreter.interpret(expression)
     }
   }
-
+  // fixed error
   static error(token: Token, message: string) : void {
     if (token.type === TokenType.EOF) {
       this.report(token.line, "", message)
