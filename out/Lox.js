@@ -5,12 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const readline_sync_1 = __importDefault(require("readline-sync"));
+const Interpreter_1 = require("./Interpreter");
 const Parser_1 = require("./Parser");
 const Scanner_1 = require("./Scanner");
 const TokenType_1 = require("./TokenType");
 class Lox {
     constructor() {
         this.hadError = false;
+        this.interpreter = new Interpreter_1.Interpreter();
         this.init();
     }
     init() {
@@ -49,7 +51,9 @@ class Lox {
         const expression = parser.parse();
         if (this.hadError)
             return;
-        console.log(expression);
+        if (expression) {
+            this.interpreter.interpret(expression);
+        }
     }
     static error(token, message) {
         if (token.type === TokenType_1.TokenType.EOF) {

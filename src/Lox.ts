@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
 import readlineSync from 'readline-sync'
 import { Expr } from './Expr'
+import { Interpreter } from './Interpreter'
 import { Parser } from './Parser'
 import { Scanner } from './Scanner'
 import { Token } from './Token'
@@ -8,9 +9,11 @@ import { TokenType } from './TokenType'
 
 export default class Lox {
   hadError: boolean
+  interpreter:  Interpreter
 
   constructor() {
     this.hadError = false
+    this.interpreter = new Interpreter()
     this.init()
   }
 
@@ -49,7 +52,9 @@ export default class Lox {
     
     if (this.hadError) return;
 
-    console.log(expression)
+    if (expression) {
+      this.interpreter.interpret(expression)
+    }
   }
 
   static error(token: Token, message: string) : void {
